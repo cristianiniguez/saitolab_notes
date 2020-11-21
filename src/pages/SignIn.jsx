@@ -15,7 +15,7 @@ export class SignIn extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.signIn(this.state);
+    this.props.signIn({ email: this.state.email, username: 'saito' });
     this.props.history.push('/');
   };
   render() {
@@ -37,6 +37,7 @@ export class SignIn extends Component {
                         name='email'
                         placeholder='Email'
                         onChange={this.handleChange}
+                        required
                       />
                     </div>
                     <div className='form-group'>
@@ -46,6 +47,7 @@ export class SignIn extends Component {
                         name='password'
                         placeholder='Password'
                         onChange={this.handleChange}
+                        required
                       />
                     </div>
                     <div className='form-group'>
