@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Markdown from 'markdown-to-jsx';
 
 import '../assets/pages/Home.css';
 export class Home extends Component {
@@ -16,7 +17,7 @@ export class Home extends Component {
           <div className='container'>
             <h1>Welcome to SaitoLab Notes</h1>
             <p>
-              Write your notes using <span className='text-info'>Markdown</span> easy
+              Write notes using <span className='text-info'>Markdown</span> easy
             </p>
             <p>
               <Link className='btn btn-success m-2' to='/sign-in'>
@@ -45,7 +46,9 @@ export class Home extends Component {
                     {filteredNotes.map((note) => (
                       <div key={note._id} className='card'>
                         <div className='card-header'>{note.title}</div>
-                        <div className='card-body'>{note.content}</div>
+                        <div className='card-body'>
+                          <Markdown>{note.content}</Markdown>
+                        </div>
                         <div className='card-footer'>
                           <p>{note.createdAt}</p>
                           <div>

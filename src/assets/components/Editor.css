@@ -1,0 +1,21 @@
+.editor__buttons {
+  font-size: 0.9em;
+  text-align: right;
+}
+
+.editor__fields {
+  display: flex;
+}
+
+.editor__textarea,
+.editor__preview {
+  width: 50%;
+}
+
+.editor__textarea textarea {
+  resize: none;
+}
+
+.editor__preview {
+  overflow: scroll;
+}

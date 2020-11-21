@@ -6,6 +6,7 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import New from './pages/New';
 
 function App({ user }) {
   return (
@@ -15,6 +16,7 @@ function App({ user }) {
           <Route exact path='/' component={Home} />
           <Route exact path='/sign-in' component={Object.keys(user).length > 0 ? Home : SignIn} />
           <Route exact path='/sign-up' component={SignUp} />
+          <Route exact path='/new' component={New} />
         </Switch>
       </Layout>
     </BrowserRouter>

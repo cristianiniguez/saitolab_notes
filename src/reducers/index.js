@@ -10,6 +10,11 @@ const reducer = (state, action) => {
         ...state,
         user: {},
       };
+    case 'CREATE_NOTE':
+      return {
+        ...state,
+        notes: [...state.notes, { ...action.payload, _id: `N${state.notes.length + 1}` }],
+      };
     default:
       return state;
   }

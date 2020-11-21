@@ -6,3 +6,8 @@ export const signIn = (payload) => ({
 export const logOut = () => ({
   type: 'LOG_OUT',
 });
+
+export const createNote = (payload) => ({
+  type: 'CREATE_NOTE',
+  payload,
+});
