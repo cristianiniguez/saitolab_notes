@@ -15,6 +15,13 @@ const reducer = (state, action) => {
         ...state,
         notes: [...state.notes, { ...action.payload, _id: `N${state.notes.length + 1}` }],
       };
+    case 'UPDATE_NOTE':
+      return {
+        ...state,
+        notes: state.notes.map((note) =>
+          note._id === action.payload._id ? { ...note, ...action.payload } : note,
+        ),
+      };
     default:
       return state;
   }

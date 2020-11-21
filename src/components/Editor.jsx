@@ -5,8 +5,8 @@ import '../assets/components/Editor.css';
 
 class Editor extends Component {
   state = {
-    title: '',
-    content: '',
+    title: this.props.default?.title || '',
+    content: this.props.default?.content || '',
   };
   handleChange = (e) => {
     this.setState({
