@@ -15,7 +15,7 @@ export class SignIn extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.signIn({ email: this.state.email, username: 'saito' });
+    this.props.signIn({ _id: 'U1', name: 'saito', email: this.state.email });
     this.props.history.push('/');
   };
   render() {

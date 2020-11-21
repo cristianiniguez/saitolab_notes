@@ -12,7 +12,7 @@ function App({ user }) {
     <BrowserRouter>
       <Layout>
         <Switch>
-          <Route exact path='/' component={Object.keys(user).length > 0 ? Home : SignIn} />
+          <Route exact path='/' component={Home} />
           <Route exact path='/sign-in' component={Object.keys(user).length > 0 ? Home : SignIn} />
           <Route exact path='/sign-up' component={SignUp} />
         </Switch>
