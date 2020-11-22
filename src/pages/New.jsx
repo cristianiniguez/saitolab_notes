@@ -2,24 +2,24 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { createNote } from '../actions';
+import { createNoteRequest } from '../api';
+import { setAlert } from '../actions';
 
 import Main from '../components/Main';
 import Editor from '../components/Editor';
 
 export class New extends Component {
-  handleSubmit = ({ content, title }) => {
-    const { user } = this.props;
-    const newNote = {
-      userId: user._id,
-      title,
-      content,
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
-    };
-    console.log(newNote);
-    this.props.createNote(newNote);
-    this.props.history.push('/');
+  handleSubmit = async (newNote) => {
+    try {
+      const { message } = await createNoteRequest({ note: newNote });
+      this.props.setAlert({ type: 'success', content: message });
+      this.props.history.push('/');
+    } catch (error) {
+      this.props.setAlert({
+        type: 'danger',
+        content: 'There was an error while creating the note',
+      });
+    }
   };
   render() {
     const { user } = this.props;
@@ -29,7 +29,9 @@ export class New extends Component {
       <Main>
         <section className='p-4'>
           <div className='container'>
-            <h1>New Note for {user.name}</h1>
+            <h2 className='font-weight-bold'>
+              New Note for <span className='text-primary'>{user.name}</span>
+            </h2>
             <Editor onSubmit={this.handleSubmit} type='Create' />
           </div>
         </section>
@@ -43,7 +45,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  createNote,
+  setAlert,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(New);

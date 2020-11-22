@@ -21,8 +21,17 @@ export const signUpRequest = async ({ name, email, password }) => {
   return data;
 };
 
-export const readNotesRequest = async ({ token }) => {
+export const readNotesRequest = async () => {
+  const token = localStorage.getItem('saitolab-notes-token');
   const { data } = await axios.get(`${API_URL}/api/notes`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return data;
+};
+
+export const createNoteRequest = async ({ note }) => {
+  const token = localStorage.getItem('saitolab-notes-token');
+  const { data } = await axios.post(`${API_URL}/api/notes`, note, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return data;

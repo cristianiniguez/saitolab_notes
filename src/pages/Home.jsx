@@ -7,17 +7,18 @@ import Main from '../components/Main';
 
 import '../assets/pages/Home.css';
 import { readNotesRequest } from '../api';
-import { readNotes, logOut } from '../actions';
+import { setAlert, readNotes, logOut } from '../actions';
 export class Home extends Component {
   fetchData = async () => {
-    const token = localStorage.getItem('saitolab-notes-token');
     try {
-      const { data } = await readNotesRequest({ token });
+      const { data } = await readNotesRequest();
       this.props.readNotes(data);
     } catch (error) {
+      console.log(error);
       this.props.logOut();
       localStorage.removeItem('saitolab-notes-token');
       localStorage.removeItem('saitolab-notes-user');
+      this.props.setAlert({ type: 'danger', content: 'There was an error while getting notes' });
     }
   };
   componentDidMount = async () => {
@@ -34,7 +35,9 @@ export class Home extends Component {
         {user ? (
           <section>
             <div className='container p-4'>
-              <h1>Welcome {user.name}</h1>
+              <h2 className='font-weight-bold'>
+                Welcome <span className='text-primary'>{user.name}</span>
+              </h2>
               <div>
                 {filteredNotes.length > 0 ? (
                   <>
@@ -45,11 +48,13 @@ export class Home extends Component {
                     <div className='notes-container my-4'>
                       {filteredNotes.map((note) => (
                         <div key={note._id} className='card'>
-                          <div className='card-header'>{note.title}</div>
+                          <div className='card-header text-center'>
+                            <strong>{note.title}</strong>
+                          </div>
                           <div className='card-body'>
                             <Markdown>{note.content}</Markdown>
                           </div>
-                          <div className='card-footer'>
+                          <div className='card-footer text-right'>
                             <p>{note.createdAt}</p>
                             <div>
                               <Link className='btn btn-warning mr-2' to={`/update/${note._id}`}>
@@ -103,6 +108,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  setAlert,
   readNotes,
   logOut,
 };
