@@ -57,6 +57,40 @@ class Editor extends Component {
             <Markdown>{this.state.content}</Markdown>
           </div>
         </div>
+        <div className='editor__manual my-4'>
+          <h2 className='text-primary font-weight-bold'>How to use this editor?</h2>
+          <p>
+            This editor can work with markdown language. If you don't know markdown language yet,
+            there are a lot of tutorials on the web. But this manual will give you a fast view of
+            this language.
+          </p>
+          <p>Try those symbols in the Content input (they works):</p>
+          <ul>
+            <li>
+              Wrte <code>#</code> and a space at the start of a paragraph to create a header. You
+              can use two or more <code>#</code> to create smaller headers.
+            </li>
+            <li>
+              Write <code>*</code> and a space at the start of a paragraph to create an ordered
+              lists (with bullets). You can write numbers like <code>1. 2. 3.</code> to create
+              ordered lists (with enumerations).
+            </li>
+            <li>
+              Write <code>*</code> before and after a piece of text and these will be displayed{' '}
+              <i>like this</i>. With <code>**</code> to display <strong>like this</strong> and{' '}
+              <code>***</code> to display{' '}
+              <strong>
+                <i>like this</i>
+              </strong>
+            </li>
+            <li>Be sure to write two line breaks to start a new paragraph.</li>
+          </ul>
+          <p>
+            With these features you will write good notes, but if you like to know more about
+            markdown (because there is more), well look for markdown in Youtube and the rest is up
+            to you. Happy Writting 👨🏻.
+          </p>
+        </div>
       </form>
     );
   }
