@@ -6,7 +6,7 @@ import Markdown from 'markdown-to-jsx';
 import Main from '../components/Main';
 
 import '../assets/pages/Home.css';
-import { readNotesRequest } from '../api';
+import { readNotesRequest, deleteNoteRequest } from '../api';
 import { setAlert, readNotes, logOut } from '../actions';
 export class Home extends Component {
   fetchData = async () => {
@@ -24,8 +24,23 @@ export class Home extends Component {
   componentDidMount = async () => {
     if (this.props.user) this.fetchData();
   };
-  handleDelete = (e) => {
-    console.log(e.target.dataset.id);
+  handleDelete = async (e) => {
+    const confirmation = window.confirm(
+      'Are you sure you want to delete this note?\nIt will be lost forever!',
+    );
+    if (confirmation) {
+      const id = e.target.dataset.id;
+      try {
+        const { message } = await deleteNoteRequest({ noteId: id });
+        this.props.setAlert({ type: 'success', content: message });
+        await this.fetchData();
+      } catch (error) {
+        this.props.setAlert({
+          type: 'danger',
+          content: 'There was an error while deleting the note',
+        });
+      }
+    }
   };
   render() {
     const { user, notes } = this.props;

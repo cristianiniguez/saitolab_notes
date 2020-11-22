@@ -4,18 +4,27 @@ import { connect } from 'react-redux';
 import Main from '../components/Main';
 import Editor from '../components/Editor';
 
-import { updateNote } from '../actions';
+import { updateNoteRequest } from '../api';
+import { setAlert } from '../actions';
 
 class Update extends Component {
-  handleSubmit = ({ content, title }) => {
+  handleSubmit = async (newNote) => {
     const { id } = this.props.match.params;
-    this.props.updateNote({ _id: id, content, title, updatedAt: new Date().toString() });
-    this.props.history.push('/');
+    try {
+      const { message } = await updateNoteRequest({ noteId: id, note: newNote });
+      this.props.setAlert({ type: 'success', content: message });
+      this.props.history.push('/');
+    } catch (error) {
+      this.props.setAlert({
+        type: 'danger',
+        content: 'There was an error while updating the note',
+      });
+    }
   };
   render() {
     const { user, notes } = this.props;
     const { id: noteId } = this.props.match.params;
-    const findedNote = notes.find((note) => note.userId === user._id && note._id === noteId);
+    const findedNote = notes.find((note) => note.userId === user.id && note._id === noteId);
     return (
       <Main>
         <section className='p-4'>
@@ -45,7 +54,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  updateNote,
+  setAlert,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Update);

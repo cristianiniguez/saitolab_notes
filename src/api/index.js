@@ -36,3 +36,19 @@ export const createNoteRequest = async ({ note }) => {
   });
   return data;
 };
+
+export const updateNoteRequest = async ({ noteId, note }) => {
+  const token = localStorage.getItem('saitolab-notes-token');
+  const { data } = await axios.put(`${API_URL}/api/notes/${noteId}`, note, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return data;
+};
+
+export const deleteNoteRequest = async ({ noteId }) => {
+  const token = localStorage.getItem('saitolab-notes-token');
+  const { data } = await axios.delete(`${API_URL}/api/notes/${noteId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return data;
+};
