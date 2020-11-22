@@ -30,7 +30,7 @@ export class SignIn extends Component {
       this.props.setAlert({ type: 'success', content: 'Sign In Successfull' });
       this.props.history.push('/');
     } catch (error) {
-      alert('User Unauthorized');
+      this.props.setAlert({ type: 'danger', content: 'User unauthorized' });
       this.setState({ email: '', password: '' });
     }
   };
