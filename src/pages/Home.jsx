@@ -4,14 +4,30 @@ import { Link } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
 
 import '../assets/pages/Home.css';
+import { readNotesRequest } from '../api';
+import { readNotes, logOut } from '../actions';
 export class Home extends Component {
+  fetchData = async () => {
+    const token = localStorage.getItem('saitolab-notes-token');
+    try {
+      const { data } = await readNotesRequest({ token });
+      this.props.readNotes(data);
+    } catch (error) {
+      this.props.logOut();
+      localStorage.removeItem('saitolab-notes-token');
+      localStorage.removeItem('saitolab-notes-user');
+    }
+  };
+  componentDidMount = async () => {
+    if (this.props.user) this.fetchData();
+  };
   handleDelete = (e) => {
     console.log(e.target.dataset.id);
   };
   render() {
     const { user, notes } = this.props;
-    const filteredNotes = notes.filter((note) => note.userId === user._id);
-    return Object.keys(user).length === 0 ? (
+    const filteredNotes = notes.filter((note) => note.userId === user.id);
+    return !user ? (
       <main>
         <section className='p-4 text-center'>
           <div className='container'>
@@ -84,4 +100,9 @@ const mapStateToProps = (state) => ({
   notes: state.notes,
 });
 
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = {
+  readNotes,
+  logOut,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

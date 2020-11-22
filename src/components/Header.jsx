@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { logOut } from '../actions';
 
-const Header = (props) => {
+const Header = ({ user, logOut }) => {
   const handleLogOut = () => {
-    props.logOut();
-    return <Redirect to='/sign-in' />;
+    logOut();
+    localStorage.removeItem('saitolab-notes-token');
+    localStorage.removeItem('saitolab-notes-user');
   };
   return (
     <header>
@@ -17,11 +18,11 @@ const Header = (props) => {
             SLNotes
           </Link>
           <ul className='navbar-nav ml-auto'>
-            {Object.keys(props.user).length > 0 ? (
+            {user ? (
               <li className='nav-item'>
-                <span className='nav-link' role='button' onClick={handleLogOut}>
+                <Link className='nav-link' to='/' onClick={handleLogOut}>
                   Log Out
-                </span>
+                </Link>
               </li>
             ) : (
               <>

@@ -8,7 +8,13 @@ const reducer = (state, action) => {
     case 'LOG_OUT':
       return {
         ...state,
-        user: {},
+        user: null,
+        notes: null,
+      };
+    case 'READ_NOTES':
+      return {
+        ...state,
+        notes: action.payload,
       };
     case 'CREATE_NOTE':
       return {

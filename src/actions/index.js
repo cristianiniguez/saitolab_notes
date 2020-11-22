@@ -7,6 +7,11 @@ export const logOut = () => ({
   type: 'LOG_OUT',
 });
 
+export const readNotes = (payload) => ({
+  type: 'READ_NOTES',
+  payload,
+});
+
 export const createNote = (payload) => ({
   type: 'CREATE_NOTE',
   payload,

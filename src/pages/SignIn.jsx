@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { signIn } from '../actions';
+import { signInRequest } from '../api';
 
 export class SignIn extends Component {
   state = {
@@ -13,13 +15,26 @@ export class SignIn extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    this.props.signIn({ _id: 'U1', name: 'saito', email: this.state.email });
-    this.props.history.push('/');
+    try {
+      const { token, user } = await signInRequest({
+        email: this.state.email,
+        password: this.state.password,
+      });
+      localStorage.setItem('saitolab-notes-token', token);
+      localStorage.setItem('saitolab-notes-user', JSON.stringify(user));
+      this.props.signIn(user);
+      this.props.history.push('/');
+    } catch (error) {
+      alert('User Unauthorized');
+      this.setState({ email: '', password: '' });
+    }
   };
   render() {
-    return (
+    return this.props.user ? (
+      <Redirect to='/' />
+    ) : (
       <main>
         <section>
           <div className='container p-4'>
@@ -36,7 +51,9 @@ export class SignIn extends Component {
                         type='email'
                         name='email'
                         placeholder='Email'
+                        value={this.state.email}
                         onChange={this.handleChange}
+                        autoFocus
                         required
                       />
                     </div>
@@ -46,6 +63,7 @@ export class SignIn extends Component {
                         type='password'
                         name='password'
                         placeholder='Password'
+                        value={this.state.password}
                         onChange={this.handleChange}
                         required
                       />
@@ -66,8 +84,12 @@ export class SignIn extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
 const mapDispatchToPros = {
   signIn,
 };
 
-export default connect(null, mapDispatchToPros)(SignIn);
+export default connect(mapStateToProps, mapDispatchToPros)(SignIn);
