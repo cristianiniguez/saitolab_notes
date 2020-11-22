@@ -1,6 +1,7 @@
 {
   "name": "saitolab_notes_front",
   "version": "0.1.0",
+  "description": "Frontend de Notas en Markdown hecho con React y Bootstrap",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
@@ -46,5 +47,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cristianiniguez/saitolab_notes.git"
+  },
+  "keywords": [],
+  "author": "cristianiniguez <felizpc1@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cristianiniguez/saitolab_notes/issues"
+  },
+  "homepage": "https://github.com/cristianiniguez/saitolab_notes#readme"
 }
