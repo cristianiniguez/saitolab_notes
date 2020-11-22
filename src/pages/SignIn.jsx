@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { signIn } from '../actions';
+import Main from '../components/Main';
+
+import { signIn, setAlert } from '../actions';
 import { signInRequest } from '../api';
 
 export class SignIn extends Component {
@@ -25,6 +27,7 @@ export class SignIn extends Component {
       localStorage.setItem('saitolab-notes-token', token);
       localStorage.setItem('saitolab-notes-user', JSON.stringify(user));
       this.props.signIn(user);
+      this.props.setAlert({ type: 'success', content: 'Sign In Successfull' });
       this.props.history.push('/');
     } catch (error) {
       alert('User Unauthorized');
@@ -35,7 +38,7 @@ export class SignIn extends Component {
     return this.props.user ? (
       <Redirect to='/' />
     ) : (
-      <main>
+      <Main>
         <section>
           <div className='container p-4'>
             <div className='row'>
@@ -79,7 +82,7 @@ export class SignIn extends Component {
             </div>
           </div>
         </section>
-      </main>
+      </Main>
     );
   }
 }
@@ -89,6 +92,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToPros = {
+  setAlert,
   signIn,
 };
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Main from '../components/Main';
+
 export class SignUp extends Component {
   state = {
     username: '',
@@ -18,7 +20,7 @@ export class SignUp extends Component {
   };
   render() {
     return (
-      <main>
+      <Main>
         <section>
           <div className='container p-4'>
             <div className='row'>
@@ -69,7 +71,7 @@ export class SignUp extends Component {
             </div>
           </div>
         </section>
-      </main>
+      </Main>
     );
   }
 }

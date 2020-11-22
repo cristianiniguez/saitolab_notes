@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Main from '../components/Main';
 import Editor from '../components/Editor';
 
 import { updateNote } from '../actions';
@@ -16,7 +17,7 @@ class Update extends Component {
     const { id: noteId } = this.props.match.params;
     const findedNote = notes.find((note) => note.userId === user._id && note._id === noteId);
     return (
-      <main>
+      <Main>
         <section className='p-4'>
           <div className='container'>
             {findedNote ? (
@@ -33,7 +34,7 @@ class Update extends Component {
             )}
           </div>
         </section>
-      </main>
+      </Main>
     );
   }
 }

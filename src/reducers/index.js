@@ -1,5 +1,15 @@
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'SET_ALERT':
+      return {
+        ...state,
+        alert: action.payload,
+      };
+    case 'REMOVE_ALERT':
+      return {
+        ...state,
+        alert: null,
+      };
     case 'SIGN_IN':
       return {
         ...state,
@@ -9,7 +19,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         user: null,
-        notes: null,
+        notes: [],
       };
     case 'READ_NOTES':
       return {

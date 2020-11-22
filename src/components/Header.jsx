@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { logOut } from '../actions';
+import { setAlert, logOut } from '../actions';
 
-const Header = ({ user, logOut }) => {
+const Header = ({ user, logOut, setAlert }) => {
   const handleLogOut = () => {
     logOut();
     localStorage.removeItem('saitolab-notes-token');
     localStorage.removeItem('saitolab-notes-user');
+    setAlert({ type: 'success', content: 'Log Out Successfull' });
   };
   return (
     <header>
@@ -50,6 +51,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  setAlert,
   logOut,
 };
 

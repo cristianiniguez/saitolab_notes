@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { createNote } from '../actions';
 
+import Main from '../components/Main';
 import Editor from '../components/Editor';
 
 export class New extends Component {
@@ -22,14 +23,14 @@ export class New extends Component {
   render() {
     const { user } = this.props;
     return (
-      <main>
+      <Main>
         <section className='p-4'>
           <div className='container'>
             <h1>New Note for {user.name}</h1>
             <Editor onSubmit={this.handleSubmit} type='Create' />
           </div>
         </section>
-      </main>
+      </Main>
     );
   }
 }

@@ -9,7 +9,11 @@ import reducer from './reducers';
 
 import 'bootswatch/dist/yeti/bootstrap.min.css';
 
-const initialState = { user: JSON.parse(localStorage.getItem('saitolab-notes-user')), notes: [] };
+const initialState = {
+  user: JSON.parse(localStorage.getItem('saitolab-notes-user')),
+  notes: [],
+  alert: null,
+};
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, initialState, composeEnhancer());
