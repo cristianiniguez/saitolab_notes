@@ -12,6 +12,15 @@ export const signInRequest = async ({ email, password }) => {
   return data;
 };
 
+export const signUpRequest = async ({ name, email, password }) => {
+  const { data } = await axios.post(`${API_URL}/api/auth/sign-up`, {
+    name,
+    email,
+    password,
+  });
+  return data;
+};
+
 export const readNotesRequest = async ({ token }) => {
   const { data } = await axios.get(`${API_URL}/api/notes`, {
     headers: { Authorization: `Bearer ${token}` },

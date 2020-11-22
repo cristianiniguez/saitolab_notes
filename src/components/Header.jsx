@@ -34,7 +34,7 @@ const Header = ({ user, logOut, setAlert }) => {
                 </li>
                 <li className='nav-item'>
                   <Link className='nav-link' to='/sign-up'>
-                    Sign-up
+                    Sign up
                   </Link>
                 </li>
               </>

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Main from '../components/Main';
 
-export class SignUp extends Component {
+import { signUpRequest } from '../api';
+import { setAlert } from '../actions';
+
+class SignUp extends Component {
   state = {
-    username: '',
+    name: '',
     email: '',
     password: '',
   };
@@ -13,10 +17,21 @@ export class SignUp extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Sign up succesfull');
-    this.props.history.push('/');
+    try {
+      const data = await signUpRequest(this.state);
+      console.log(data);
+      this.props.setAlert({ type: 'success', content: 'Sign up succesfull' });
+      this.props.history.push('/sign-in');
+    } catch (error) {
+      this.props.setAlert({ type: 'danger', content: 'User with this email alredy exists' });
+      this.setState({
+        name: '',
+        email: '',
+        password: '',
+      });
+    }
   };
   render() {
     return (
@@ -34,8 +49,9 @@ export class SignUp extends Component {
                       <input
                         className='form-control'
                         type='text'
-                        name='username'
+                        name='name'
                         placeholder='User Name'
+                        value={this.state.name}
                         onChange={this.handleChange}
                         required
                       />
@@ -46,6 +62,7 @@ export class SignUp extends Component {
                         type='email'
                         name='email'
                         placeholder='Email'
+                        value={this.state.email}
                         onChange={this.handleChange}
                         required
                       />
@@ -56,6 +73,7 @@ export class SignUp extends Component {
                         type='password'
                         name='password'
                         placeholder='Password'
+                        value={this.state.password}
                         onChange={this.handleChange}
                         required
                       />
@@ -76,4 +94,8 @@ export class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapDispatchToProps = {
+  setAlert,
+};
+
+export default connect(null, mapDispatchToProps)(SignUp);

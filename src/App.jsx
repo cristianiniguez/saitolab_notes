@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Layout from './components/Layout';
@@ -9,7 +8,7 @@ import SignUp from './pages/SignUp';
 import New from './pages/New';
 import Update from './pages/Update';
 
-function App({ user }) {
+function App() {
   return (
     <BrowserRouter>
       <Layout>
@@ -25,10 +24,4 @@ function App({ user }) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
-
-export default connect(mapStateToProps, null)(App);
+export default App;

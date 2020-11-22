@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { createNote } from '../actions';
@@ -22,7 +23,9 @@ export class New extends Component {
   };
   render() {
     const { user } = this.props;
-    return (
+    return !user ? (
+      <Redirect to='/' />
+    ) : (
       <Main>
         <section className='p-4'>
           <div className='container'>
