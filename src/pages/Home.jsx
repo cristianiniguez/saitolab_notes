@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPencilAlt,
+  faTrashAlt,
+  faPlus,
+  faUserCheck,
+  faUserPlus,
+} from '@fortawesome/free-solid-svg-icons';
+import { faMarkdown } from '@fortawesome/free-brands-svg-icons';
 import Markdown from 'markdown-to-jsx';
+import moment from 'moment';
 
 import Main from '../components/Main';
 
@@ -14,7 +24,6 @@ export class Home extends Component {
       const { data } = await readNotesRequest();
       this.props.readNotes(data);
     } catch (error) {
-      console.log(error);
       this.props.logOut();
       localStorage.removeItem('saitolab-notes-token');
       localStorage.removeItem('saitolab-notes-user');
@@ -57,7 +66,7 @@ export class Home extends Component {
                 {filteredNotes.length > 0 ? (
                   <>
                     <Link className='btn btn-success' to='/new'>
-                      New Note
+                      New Note <FontAwesomeIcon icon={faPlus} />
                     </Link>
                     <hr />
                     <div className='notes-container my-4'>
@@ -69,18 +78,23 @@ export class Home extends Component {
                           <div className='card-body'>
                             <Markdown>{note.content}</Markdown>
                           </div>
-                          <div className='card-footer text-right'>
-                            <p>{note.createdAt}</p>
+                          <div className='card-footer d-flex justify-content-between align-items-center'>
+                            <div>
+                              <p className='m-0 text-muted'>
+                                {note.createdAt === note.updatedAt ? 'Created' : 'Updated'}{' '}
+                                {moment(note.updatedAt).fromNow()}
+                              </p>
+                            </div>
                             <div>
                               <Link className='btn btn-warning mr-2' to={`/update/${note._id}`}>
-                                Update
+                                <FontAwesomeIcon icon={faPencilAlt} />
                               </Link>
                               <button
                                 className='btn btn-danger'
                                 data-id={note._id}
                                 onClick={this.handleDelete}
                               >
-                                Delete
+                                <FontAwesomeIcon icon={faTrashAlt} />
                               </button>
                             </div>
                           </div>
@@ -89,24 +103,32 @@ export class Home extends Component {
                     </div>
                   </>
                 ) : (
-                  <h2>You don't have notes yet. Create one</h2>
+                  <p className='py-4'>
+                    You don't have notes yet. <Link to='/new'>Create one</Link>
+                  </p>
                 )}
               </div>
             </div>
           </section>
         ) : (
           <section className='p-4 text-center'>
-            <div className='container'>
-              <h1>Welcome to SaitoLab Notes</h1>
-              <p>
-                Write notes using <span className='text-info'>Markdown</span> easy
-              </p>
+            <div className='container p-4'>
+              <h1 className='font-weight-bold'>
+                Welcome to <span className='text-primary'>SaitoLab Notes</span> 📝
+              </h1>
+              <h3 className='p-4'>
+                Write notes using{' '}
+                <span className='text-info'>
+                  Markdown <FontAwesomeIcon icon={faMarkdown} />
+                </span>{' '}
+                easy
+              </h3>
               <p>
                 <Link className='btn btn-success m-2' to='/sign-in'>
-                  Sign In
+                  Sign In <FontAwesomeIcon icon={faUserCheck} />
                 </Link>
                 <Link className='btn btn-primary m-2' to='/sign-up'>
-                  Sign Up
+                  Sign Up <FontAwesomeIcon icon={faUserPlus} />
                 </Link>
               </p>
             </div>

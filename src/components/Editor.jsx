@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Markdown from 'markdown-to-jsx';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import '../assets/components/Editor.css';
 
 class Editor extends Component {
@@ -33,7 +36,7 @@ class Editor extends Component {
             />
             <div className='input-group-append'>
               <button className='btn btn-success' type='submit'>
-                {this.props.type}
+                {this.props.type} <FontAwesomeIcon icon={faCheck} />
               </button>
             </div>
           </div>
