@@ -3,6 +3,7 @@ import Markdown from 'markdown-to-jsx';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faMarkdown } from '@fortawesome/free-brands-svg-icons';
 
 import '../assets/components/Editor.css';
 
@@ -10,10 +11,16 @@ class Editor extends Component {
   state = {
     title: this.props.default?.title || '',
     content: this.props.default?.content || '',
+    preview: false,
   };
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
+    });
+  };
+  handleChbChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.checked,
     });
   };
   handleSubmit = (e) => {
@@ -41,21 +48,29 @@ class Editor extends Component {
             </div>
           </div>
         </div>
-        <div className='editor__fields'>
+        <div className={`editor__fields ${this.state.preview ? 'editor__fields--preview' : ''}`}>
           <div className='editor__textarea'>
             <textarea
               name='content'
               rows='10'
-              className='form-control'
+              className='form-control editor__textarea-box'
               required
               onChange={this.handleChange}
               value={this.state.content}
               placeholder='Content'
             ></textarea>
+            <span className='p-2 border text-muted bg-light'>Markdown</span>
           </div>
-          <div className='editor__preview border p-2'>
-            <Markdown>{this.state.content}</Markdown>
+          <div className='editor__preview'>
+            <div className='editor__preview-box border p-2'>
+              <Markdown>{this.state.content}</Markdown>
+            </div>
+            <span className='p-2 border text-muted bg-light'>Preview</span>
           </div>
+          <label className='editor__preview-chb text-muted'>
+            <FontAwesomeIcon icon={faMarkdown} />
+            <input type='checkbox' name='preview' id='preview' onChange={this.handleChbChange} />
+          </label>
         </div>
         <div className='editor__manual my-4'>
           <h2 className='text-primary font-weight-bold'>How to use this editor?</h2>
