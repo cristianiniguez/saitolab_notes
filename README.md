@@ -4,6 +4,8 @@ Frontend de Notas en Markdown hecho con React y Bootstrap
 
 Página: https://saitolab-notes.vercel.app
 
+![screenshot](./screenshot.png)
+
 ## Tecnologías utilizadas
 
 - React
