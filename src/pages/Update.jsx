@@ -8,10 +8,10 @@ import { updateNoteRequest } from '../api';
 import { setAlert } from '../actions';
 
 class Update extends Component {
-  handleSubmit = async (newNote) => {
+  handleSubmit = async ({ title, content }) => {
     const { id } = this.props.match.params;
     try {
-      const { message } = await updateNoteRequest({ noteId: id, note: newNote });
+      const { message } = await updateNoteRequest({ noteId: id, note: { title, content } });
       this.props.setAlert({ type: 'success', content: message });
       this.props.history.push('/');
     } catch (error) {

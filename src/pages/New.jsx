@@ -9,9 +9,9 @@ import Main from '../components/Main';
 import Editor from '../components/Editor';
 
 export class New extends Component {
-  handleSubmit = async (newNote) => {
+  handleSubmit = async ({ title, content }) => {
     try {
-      const { message } = await createNoteRequest({ note: newNote });
+      const { message } = await createNoteRequest({ note: { title, content } });
       this.props.setAlert({ type: 'success', content: message });
       this.props.history.push('/');
     } catch (error) {
