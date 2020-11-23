@@ -33,12 +33,11 @@ export class Home extends Component {
   componentDidMount = async () => {
     if (this.props.user) this.fetchData();
   };
-  handleDelete = async (e) => {
+  handleDelete = async (id) => {
     const confirmation = window.confirm(
       'Are you sure you want to delete this note?\nIt will be lost forever!',
     );
     if (confirmation) {
-      const id = e.target.dataset.id;
       try {
         const { message } = await deleteNoteRequest({ noteId: id });
         this.props.setAlert({ type: 'success', content: message });
@@ -91,8 +90,7 @@ export class Home extends Component {
                               </Link>
                               <button
                                 className='btn btn-danger'
-                                data-id={note._id}
-                                onClick={this.handleDelete}
+                                onClick={() => this.handleDelete(note._id)}
                               >
                                 <FontAwesomeIcon icon={faTrashAlt} />
                               </button>
