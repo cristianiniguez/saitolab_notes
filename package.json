@@ -49,16 +49,5 @@
     ]
   },
   "main": "index.js",
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cristianiniguez/saitolab_notes.git"
-  },
-  "keywords": [],
-  "author": "cristianiniguez <felizpc1@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/cristianiniguez/saitolab_notes/issues"
-  },
-  "homepage": "https://github.com/cristianiniguez/saitolab_notes#readme"
+  "devDependencies": {}
 }
