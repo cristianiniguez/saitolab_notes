@@ -14,24 +14,14 @@ import Markdown from 'markdown-to-jsx';
 import moment from 'moment';
 
 import Main from '../components/Main';
+import Spinner from '../components/Spinner';
 
 import '../assets/pages/Home.css';
-import { readNotesRequest, deleteNoteRequest } from '../api';
-import { setAlert, readNotes, logOut } from '../actions';
+import { deleteNoteRequest } from '../api';
+import { readNotesReq } from '../actions';
 export class Home extends Component {
-  fetchData = async () => {
-    try {
-      const { data } = await readNotesRequest();
-      this.props.readNotes(data);
-    } catch (error) {
-      this.props.logOut();
-      localStorage.removeItem('saitolab-notes-token');
-      localStorage.removeItem('saitolab-notes-user');
-      this.props.setAlert({ type: 'danger', content: 'There was an error while getting notes' });
-    }
-  };
-  componentDidMount = async () => {
-    if (this.props.user) this.fetchData();
+  componentDidMount = () => {
+    if (this.props.user) this.props.readNotesReq();
   };
   handleDelete = async (id) => {
     const confirmation = window.confirm(
@@ -51,7 +41,7 @@ export class Home extends Component {
     }
   };
   render() {
-    const { user, notes } = this.props;
+    const { loading, user, notes } = this.props;
     const filteredNotes = notes.filter((note) => note.userId === user.id);
     return (
       <Main>
@@ -62,7 +52,9 @@ export class Home extends Component {
                 Welcome <span className='text-primary'>{user.name}</span>
               </h2>
               <div>
-                {filteredNotes.length > 0 ? (
+                {loading ? (
+                  <Spinner />
+                ) : filteredNotes.length > 0 ? (
                   <>
                     <Link className='btn btn-success' to='/new'>
                       New Note <FontAwesomeIcon icon={faPlus} />
@@ -138,14 +130,13 @@ export class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  loading: state.loading,
   user: state.user,
   notes: state.notes,
 });
 
 const mapDispatchToProps = {
-  setAlert,
-  readNotes,
-  logOut,
+  readNotesReq,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

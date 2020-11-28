@@ -5,6 +5,11 @@ const reducer = (state, action) => {
         ...state,
         alert: action.payload,
       };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        loading: action.payload,
+      };
     case 'REMOVE_ALERT':
       return {
         ...state,
@@ -25,6 +30,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         notes: action.payload,
+        loading: false,
       };
     case 'CREATE_NOTE':
       return {

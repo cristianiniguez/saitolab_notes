@@ -4,7 +4,7 @@ import '../assets/components/Spinner.css';
 
 const Spinner = () => {
   return (
-    <section className='text-center'>
+    <div className='text-center'>
       <div class='lds-grid'>
         <div></div>
         <div></div>
@@ -16,7 +16,7 @@ const Spinner = () => {
         <div></div>
         <div></div>
       </div>
-    </section>
+    </div>
   );
 };
 

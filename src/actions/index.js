@@ -1,7 +1,12 @@
-import { signUpRequest, signInRequest } from '../api';
+import { signUpRequest, signInRequest, readNotesRequest } from '../api';
 
 export const setAlert = (payload) => ({
   type: 'SET_ALERT',
+  payload,
+});
+
+export const setLoading = (payload) => ({
+  type: 'SET_LOADING',
   payload,
 });
 
@@ -62,5 +67,19 @@ export const signInReq = (payload) => {
         window.location.href = '/';
       })
       .catch((error) => dispatch(setError(error)));
+  };
+};
+
+export const readNotesReq = () => {
+  return (dispatch) => {
+    dispatch(setLoading(true));
+    readNotesRequest()
+      .then(({ data }) => dispatch(readNotes(data)))
+      .catch((error) => {
+        dispatch(setError(error));
+        localStorage.removeItem('saitolab-notes-token');
+        localStorage.removeItem('saitolab-notes-user');
+        dispatch(logOut());
+      });
   };
 };
