@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Main from '../components/Main';
@@ -18,9 +19,10 @@ class SignUp extends Component {
     });
   };
   handleSubmit = async (e) => {
+    const { name, email, password } = this.state;
     e.preventDefault();
     try {
-      const data = await signUpRequest(this.state);
+      const data = await signUpRequest({ name, email, password });
       console.log(data);
       this.props.setAlert({ type: 'success', content: 'Sign up succesfull' });
       this.props.history.push('/sign-in');
@@ -34,7 +36,9 @@ class SignUp extends Component {
     }
   };
   render() {
-    return (
+    return this.props.user ? (
+      <Redirect to='/' />
+    ) : (
       <Main>
         <section>
           <div className='container p-4'>
@@ -94,8 +98,14 @@ class SignUp extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
 const mapDispatchToProps = {
   setAlert,
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
