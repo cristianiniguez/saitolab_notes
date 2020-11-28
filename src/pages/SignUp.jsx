@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 
 import Main from '../components/Main';
 
-import { signUpRequest } from '../api';
-import { setAlert } from '../actions';
+import { signUpReq } from '../actions';
 
 class SignUp extends Component {
   state = {
     name: '',
     email: '',
     password: '',
+    password2: '',
   };
   handleChange = (e) => {
     this.setState({
@@ -19,20 +19,12 @@ class SignUp extends Component {
     });
   };
   handleSubmit = async (e) => {
-    const { name, email, password } = this.state;
     e.preventDefault();
-    try {
-      const data = await signUpRequest({ name, email, password });
-      console.log(data);
-      this.props.setAlert({ type: 'success', content: 'Sign up succesfull' });
-      this.props.history.push('/sign-in');
-    } catch (error) {
-      this.props.setAlert({ type: 'danger', content: 'User with this email alredy exists' });
-      this.setState({
-        name: '',
-        email: '',
-        password: '',
-      });
+    const { name, email, password, password2 } = this.state;
+    if (password === password2) {
+      this.props.signUpReq({ name, email, password });
+    } else {
+      alert('Passwords are not equal');
     }
   };
   render() {
@@ -83,8 +75,19 @@ class SignUp extends Component {
                       />
                     </div>
                     <div className='form-group'>
+                      <input
+                        className='form-control'
+                        type='password'
+                        name='password2'
+                        placeholder='Rewrite your Password'
+                        value={this.state.password2}
+                        onChange={this.handleChange}
+                        required
+                      />
+                    </div>
+                    <div className='form-group'>
                       <button className='btn btn-primary btn-block' type='submit'>
-                        Sign in
+                        Sign up
                       </button>
                     </div>
                   </form>
@@ -105,7 +108,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setAlert,
+  signUpReq,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

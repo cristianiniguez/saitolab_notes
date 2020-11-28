@@ -4,8 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import Main from '../components/Main';
 
-import { signIn, setAlert } from '../actions';
-import { signInRequest } from '../api';
+import { signInReq } from '../actions';
 
 export class SignIn extends Component {
   state = {
@@ -19,20 +18,8 @@ export class SignIn extends Component {
   };
   handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { token, user } = await signInRequest({
-        email: this.state.email,
-        password: this.state.password,
-      });
-      localStorage.setItem('saitolab-notes-token', token);
-      localStorage.setItem('saitolab-notes-user', JSON.stringify(user));
-      this.props.signIn(user);
-      this.props.setAlert({ type: 'success', content: 'Sign In Successfull' });
-      this.props.history.push('/');
-    } catch (error) {
-      this.props.setAlert({ type: 'danger', content: 'User unauthorized' });
-      this.setState({ email: '', password: '' });
-    }
+    const { email, password } = this.state;
+    this.props.signInReq({ email, password });
   };
   render() {
     return this.props.user ? (
@@ -92,8 +79,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToPros = {
-  setAlert,
-  signIn,
+  signInReq,
 };
 
 export default connect(mapStateToProps, mapDispatchToPros)(SignIn);
