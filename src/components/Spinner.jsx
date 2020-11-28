@@ -5,7 +5,7 @@ import '../assets/components/Spinner.css';
 const Spinner = () => {
   return (
     <div className='text-center'>
-      <div class='lds-grid'>
+      <div className='lds-grid'>
         <div></div>
         <div></div>
         <div></div>
