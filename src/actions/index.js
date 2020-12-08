@@ -1,4 +1,11 @@
-import { signUpRequest, signInRequest, readNotesRequest } from '../api';
+import {
+  signUpRequest,
+  signInRequest,
+  readNotesRequest,
+  createNoteRequest,
+  updateNoteRequest,
+  deleteNoteRequest,
+} from '../api';
 import * as TYPES from '../types';
 
 // Async Action Creators
@@ -34,6 +41,39 @@ export const readNotesReq = () => async (dispatch) => {
     localStorage.removeItem('saitolab-notes-token');
     localStorage.removeItem('saitolab-notes-user');
     dispatch(logOut());
+  }
+};
+
+export const createNoteReq = ({ title, content }) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const { message } = await createNoteRequest({ note: { title, content } });
+    dispatch({ type: TYPES.CREATE_NOTE });
+    dispatch(setAlert({ type: 'success', content: message }));
+  } catch (error) {
+    dispatch(setError(error));
+  }
+};
+
+export const updateNoteReq = ({ noteId, note }) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const { message } = await updateNoteRequest({ noteId, note });
+    dispatch({ type: TYPES.UPDATE_NOTE });
+    dispatch(setAlert({ type: 'success', content: message }));
+  } catch (error) {
+    dispatch(setError(error));
+  }
+};
+
+export const deleteNoteReq = ({ noteId }) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const { message } = await deleteNoteRequest({ noteId });
+    dispatch({ type: TYPES.DELETE_NOTE });
+    dispatch(setAlert({ type: 'success', content: message }));
+  } catch (error) {
+    dispatch(setError(error));
   }
 };
 

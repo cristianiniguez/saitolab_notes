@@ -17,28 +17,22 @@ import Main from '../components/Main';
 import Spinner from '../components/Spinner';
 
 import '../assets/pages/Home.css';
-import { deleteNoteRequest } from '../api';
-import { readNotesReq } from '../actions';
+import { readNotesReq, deleteNoteReq } from '../actions';
+
 export class Home extends Component {
   componentDidMount = () => {
-    if (this.props.user && !this.props.notes.length) this.props.readNotesReq();
+    const { user, notes } = this.props;
+    if (user && !notes.length) this.props.readNotesReq();
+  };
+
+  componentDidUpdate = () => {
+    const { deleted, loading } = this.props;
+    if (deleted && !loading) this.props.readNotesReq();
   };
 
   handleDelete = async (id) => {
-    const confirmation = window.confirm(
-      'Are you sure you want to delete this note?\nIt will be lost forever!',
-    );
-    if (confirmation) {
-      try {
-        const { message } = await deleteNoteRequest({ noteId: id });
-        this.props.setAlert({ type: 'success', content: message });
-        await this.fetchData();
-      } catch (error) {
-        this.props.setAlert({
-          type: 'danger',
-          content: 'There was an error while deleting the note',
-        });
-      }
+    if (window.confirm('Are you sure you want to delete this note?\nIt will be lost forever!')) {
+      this.props.deleteNoteReq({ noteId: id });
     }
   };
 
@@ -135,10 +129,12 @@ const mapStateToProps = (state) => ({
   loading: state.loading,
   user: state.user,
   notes: state.notes,
+  deleted: state.deleted,
 });
 
 const mapDispatchToProps = {
   readNotesReq,
+  deleteNoteReq,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

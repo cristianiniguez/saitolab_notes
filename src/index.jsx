@@ -15,6 +15,7 @@ const initialState = {
   notes: [],
   loading: false,
   alert: null,
+  redirect: false,
 };
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

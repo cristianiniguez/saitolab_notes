@@ -2,28 +2,19 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { createNoteRequest } from '../api';
-import { setAlert } from '../actions';
+import { createNoteReq } from '../actions';
 
 import Main from '../components/Main';
 import Editor from '../components/Editor';
 
 export class New extends Component {
   handleSubmit = async ({ title, content }) => {
-    try {
-      const { message } = await createNoteRequest({ note: { title, content } });
-      this.props.setAlert({ type: 'success', content: message });
-      this.props.history.push('/');
-    } catch (error) {
-      this.props.setAlert({
-        type: 'danger',
-        content: 'There was an error while creating the note',
-      });
-    }
+    this.props.createNoteReq({ title, content });
   };
+
   render() {
-    const { user } = this.props;
-    return !user ? (
+    const { user, redirect } = this.props;
+    return !user || redirect ? (
       <Redirect to='/' />
     ) : (
       <Main>
@@ -42,10 +33,11 @@ export class New extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  redirect: state.redirect,
 });
 
 const mapDispatchToProps = {
-  setAlert,
+  createNoteReq,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(New);

@@ -1,31 +1,25 @@
 import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Main from '../components/Main';
 import Editor from '../components/Editor';
 
-import { updateNoteRequest } from '../api';
-import { setAlert } from '../actions';
+import { updateNoteReq } from '../actions';
 
 class Update extends Component {
   handleSubmit = async ({ title, content }) => {
     const { id } = this.props.match.params;
-    try {
-      const { message } = await updateNoteRequest({ noteId: id, note: { title, content } });
-      this.props.setAlert({ type: 'success', content: message });
-      this.props.history.push('/');
-    } catch (error) {
-      this.props.setAlert({
-        type: 'danger',
-        content: 'There was an error while updating the note',
-      });
-    }
+    this.props.updateNoteReq({ noteId: id, note: { title, content } });
   };
+
   render() {
-    const { user, notes } = this.props;
+    const { user, notes, redirect } = this.props;
     const { id: noteId } = this.props.match.params;
     const findedNote = notes.find((note) => note.userId === user.id && note._id === noteId);
-    return (
+    return !user || redirect ? (
+      <Redirect to='/' />
+    ) : (
       <Main>
         <section className='p-4'>
           <div className='container'>
@@ -39,7 +33,12 @@ class Update extends Component {
                 />
               </>
             ) : (
-              <h2>It seems this note doesn't exist</h2>
+              <div className='text-center p-4'>
+                <h2>It seems this note doesn't exist</h2>
+                <Link to='/' className='btn btn-danger m-2'>
+                  Go Home
+                </Link>
+              </div>
             )}
           </div>
         </section>
@@ -51,10 +50,11 @@ class Update extends Component {
 const mapStateToProps = (state) => ({
   user: state.user,
   notes: state.notes,
+  redirect: state.redirect,
 });
 
 const mapDispatchToProps = {
-  setAlert,
+  updateNoteReq,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Update);

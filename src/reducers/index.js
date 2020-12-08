@@ -34,18 +34,23 @@ const reducer = (state, action) => {
         ...state,
         notes: action.payload,
         loading: false,
+        redirect: false,
+        deleted: false,
       };
     case TYPES.CREATE_NOTE:
-      return {
-        ...state,
-        notes: [...state.notes, { ...action.payload, _id: `N${state.notes.length + 1}` }],
-      };
     case TYPES.UPDATE_NOTE:
       return {
         ...state,
-        notes: state.notes.map((note) =>
-          note._id === action.payload._id ? { ...note, ...action.payload } : note,
-        ),
+        notes: [],
+        redirect: true,
+        loading: false,
+      };
+    case TYPES.DELETE_NOTE:
+      return {
+        ...state,
+        notes: [],
+        deleted: true,
+        loading: false,
       };
     default:
       return state;
