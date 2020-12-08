@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Main from '../components/Main';
 
-import { signUpReq } from '../actions';
+import { signUpReq, setAlert } from '../actions';
 
 class SignUp extends Component {
   state = {
@@ -13,20 +13,23 @@ class SignUp extends Component {
     password: '',
     password2: '',
   };
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
+
   handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, password2 } = this.state;
     if (password === password2) {
       this.props.signUpReq({ name, email, password });
     } else {
-      alert('Passwords are not equal');
+      this.props.setAlert({ type: 'warning', content: 'Passwords are not equal' });
     }
   };
+
   render() {
     return this.props.user ? (
       <Redirect to='/' />
@@ -109,6 +112,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   signUpReq,
+  setAlert,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

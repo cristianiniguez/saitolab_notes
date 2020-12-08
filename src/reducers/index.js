@@ -1,43 +1,46 @@
+import * as TYPES from '../types';
+
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'SET_ALERT':
+    case TYPES.SET_ALERT:
       return {
         ...state,
         alert: action.payload,
+        loading: false,
       };
-    case 'SET_LOADING':
-      return {
-        ...state,
-        loading: action.payload,
-      };
-    case 'REMOVE_ALERT':
+    case TYPES.REMOVE_ALERT:
       return {
         ...state,
         alert: null,
       };
-    case 'SIGN_IN':
+    case TYPES.SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+    case TYPES.SIGN_IN:
       return {
         ...state,
         user: action.payload,
       };
-    case 'LOG_OUT':
+    case TYPES.LOG_OUT:
       return {
         ...state,
         user: null,
         notes: [],
       };
-    case 'READ_NOTES':
+    case TYPES.READ_NOTES:
       return {
         ...state,
         notes: action.payload,
         loading: false,
       };
-    case 'CREATE_NOTE':
+    case TYPES.CREATE_NOTE:
       return {
         ...state,
         notes: [...state.notes, { ...action.payload, _id: `N${state.notes.length + 1}` }],
       };
-    case 'UPDATE_NOTE':
+    case TYPES.UPDATE_NOTE:
       return {
         ...state,
         notes: state.notes.map((note) =>

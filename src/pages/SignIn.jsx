@@ -11,16 +11,19 @@ export class SignIn extends Component {
     email: '',
     password: '',
   };
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
+
   handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = this.state;
     this.props.signInReq({ email, password });
   };
+
   render() {
     return this.props.user ? (
       <Redirect to='/' />

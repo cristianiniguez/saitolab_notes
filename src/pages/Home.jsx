@@ -21,8 +21,9 @@ import { deleteNoteRequest } from '../api';
 import { readNotesReq } from '../actions';
 export class Home extends Component {
   componentDidMount = () => {
-    if (this.props.user) this.props.readNotesReq();
+    if (this.props.user && !this.props.notes.length) this.props.readNotesReq();
   };
+
   handleDelete = async (id) => {
     const confirmation = window.confirm(
       'Are you sure you want to delete this note?\nIt will be lost forever!',
@@ -40,6 +41,7 @@ export class Home extends Component {
       }
     }
   };
+
   render() {
     const { loading, user, notes } = this.props;
     const filteredNotes = notes.filter((note) => note.userId === user.id);
