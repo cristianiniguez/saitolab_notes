@@ -24,7 +24,7 @@ export const signInReq = ({ email, password }) => async (dispatch) => {
     const { token, user } = await signInRequest({ email, password });
     localStorage.setItem('saitolab-notes-token', token);
     localStorage.setItem('saitolab-notes-user', JSON.stringify(user));
-    dispatch(signIn(user));
+    dispatch({ type: TYPES.SIGN_IN, payload: user });
     dispatch(setAlert({ type: 'success', content: 'Sign In Successfull' }));
   } catch (error) {
     dispatch(setError(error));
@@ -35,7 +35,7 @@ export const readNotesReq = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const { data } = await readNotesRequest();
-    dispatch(readNotes(data));
+    dispatch({ type: TYPES.READ_NOTES, payload: data });
   } catch (error) {
     dispatch(setError(error));
     localStorage.removeItem('saitolab-notes-token');
@@ -77,7 +77,7 @@ export const deleteNoteReq = ({ noteId }) => async (dispatch) => {
   }
 };
 
-// Auxiliar Action Creators (maybe to remove)
+// Auxiliar Action Creators
 
 export const setAlert = (payload) => ({
   type: TYPES.SET_ALERT,
@@ -88,35 +88,15 @@ export const removeAlert = () => ({
   type: TYPES.REMOVE_ALERT,
 });
 
-export const setLoading = (payload) => ({
-  type: TYPES.SET_LOADING,
-  payload,
-});
-
-export const signIn = (payload) => ({
-  type: TYPES.SIGN_IN,
-  payload,
-});
-
 export const logOut = () => ({
   type: TYPES.LOG_OUT,
 });
 
-export const readNotes = (payload) => ({
-  type: TYPES.READ_NOTES,
+const setLoading = (payload) => ({
+  type: TYPES.SET_LOADING,
   payload,
 });
 
-export const createNote = (payload) => ({
-  type: TYPES.CREATE_NOTE,
-  payload,
-});
-
-export const updateNote = (payload) => ({
-  type: TYPES.UPDATE_NOTE,
-  payload,
-});
-
-export const setError = (error) => (dispatch) => {
+const setError = (error) => (dispatch) => {
   dispatch(setAlert({ type: 'danger', content: error.message ?? 'An error has ocurred' }));
 };
