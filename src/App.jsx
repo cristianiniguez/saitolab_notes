@@ -7,6 +7,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import New from './pages/New';
 import Update from './pages/Update';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path='/sign-up' component={SignUp} />
           <Route exact path='/new' component={New} />
           <Route exact path='/update/:id' component={Update} />
+          <Route component={NotFound} />
         </Switch>
       </Layout>
     </BrowserRouter>
